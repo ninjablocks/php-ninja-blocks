@@ -140,6 +140,32 @@ $actuateResponse = $deviceAPI->actuate($guid, $actuateData);</code></pre>
 
 				}
 
+?>
+				<h4>Data</h4>
+				<h5>Code</h5>
+				<pre class="code"><code>$fromDate = new DateTime();
+$fromDate->setTime(0, 0);
+
+$toDate = new DateTime();
+$toDate->setTime(11, 59, 59);
+
+$dataResponse = $deviceAPI->data($guid, strtotime($fromDate), strtotime($toDate));</code></pre>
+				<h5>Output</h5>
+				<pre><code><?php 
+
+					// Example: Getting todays data
+					$fromDate = new DateTime();
+					$fromDate->setTime(0, 0); // zero out the hours to midnight this morning
+
+					$toDate = new DateTime();
+					$toDate->setTime(11, 59, 59); // set max time for today.
+
+					$dataResponse = $deviceAPI->data($guid, $fromDate->format('U'), $toDate->format('U'));
+
+					echo print_r($dataResponse);
+				?></code></pre>		
+<?php
+
 
 				//break; // Only process the first one for demonstration purposes
 			}

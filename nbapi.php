@@ -73,7 +73,7 @@ class NBAPI {
 		switch ($method) {
 			case "GET":
 				if ($data) {
-					$urlData = http_build_query($data);
+					$urlData = "&".http_build_query($data);
 				}
 				break;
 			case "POST":
@@ -89,7 +89,6 @@ class NBAPI {
 				if ($data) {
 					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 					array_push($headers, 'Content-Length: ' . strlen($data));
-					echo "PUT Data: {$data}";
 				}
 				break;
 			case "DELETE":
@@ -103,15 +102,14 @@ class NBAPI {
 		}
 
 		// Generate the final endpoint url to be called
-		$url = "{$this->apiUrl}{$endpoint}?user_access_token={$this->accessToken}";
+		$url = "{$this->apiUrl}{$endpoint}?user_access_token={$this->accessToken}{$urlData}";
 		
 		// Set the curl options
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($curl, CURLOPT_VERBOSE, true);
-
+		curl_setopt($curl, CURLOPT_VERBOSE, false);
 
 		// Make the call
 		$response = curl_exec($curl);
@@ -179,12 +177,23 @@ class Device {
 		return $this->nbapi->MakeRequest("PUT", "device/{$guid}", json_encode($da));
 	}
 
+	/**
+	 * Subscribes a callback to the specified device
+	 * @param  string $guid the GUID of the device to subscribe to
+	 * @param  string $url  The url that will be called as a callback
+	 * @return object       
+	 */
 	public function subscribe($guid, $url) {
 
 		$urlObject = (object) array('url' => $url);
 		return $this->nbapi->MakeRequest("POST", "device/{$guid}/callback", json_encode($urlObject));
 	}
 
+	/**
+	 * Unsubscribes a callback from the specified device
+	 * @param  string $guid The GUID of the device to subscribe to
+	 * @return object       
+	 */
 	public function unsubscribe($guid) {
 		return $this->nbapi->MakeRequest("DELETE", "device/{$guid}/callback");
 	}
@@ -192,7 +201,7 @@ class Device {
 	public function data($guid, $from, $to) {
 
 		$dataScope = (object) array('from' => $from, 'to' => $to);
-		return $this->nbapi->MakeRequest("GET", "device/{$guid}/data". $dataScope);
+		return $this->nbapi->MakeRequest("GET", "device/{$guid}/data", $dataScope);
 	}
 
 	public function lastHeartbeat($guid) {
