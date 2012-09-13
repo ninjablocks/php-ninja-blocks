@@ -10,15 +10,15 @@ How to use
 ----------
 1. Include/Require nbapi.php into your PHP script
 2. Instantiate a Device object with your access token
-'''php
+```php
     $deviceAPI = new DeviceAPI("YOUR ACCESS TOKEN");
-'''
+```
 3. Use the implemented methods
-'''php
+```php
     $deviceAPI->getDevices();
     $deviceAPI->actuate();
     $deviceAPI->subscribe();
     $deviceAPI->unsubscribe();
     $deviceAPI->data();
     $deviceAPI->lastHeartbeat();
-'''
+```
