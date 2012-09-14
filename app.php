@@ -25,27 +25,38 @@
 
 		<?php 
 
-		/**
-		 * Sample Application using the PHP Ninja Blocks helper class.
-		 */
+		/** ============================================================
+		 *  Sample Application using the PHP Ninja Blocks helper class.
+		 *  
+		 ** ============================================================ */
 		
-		// include the Ninja Blocks API library
+		/**
+		 * include the Ninja Blocks API library
+		 */
 		require_once("nbapi.php");
 
 
-		// Generate your access token from OAUTH2 or your Dashboard
-		// Settings->API->API Access Token
-		$accessToken = "8b7c78a0-9e65-47d8-a9a3-93462c900cf9";
+		/**
+		 * Generate your API user access token in your dashboard.
+		 * https://a.ninja.is/you (API tab then click on Enable API Access Token)
+		 */
+		$userAccessToken = "8b7c78a0-9e65-47d8-a9a3-93462c900cf9";
 
-		// Instantiate a new Ninjablock
-		$deviceAPI = new Device($accessToken);
+		/**
+		 * Instantiate a new Device API.
+		 * This object will be used to communicate with the Ninja Blocks API.
+		 */
+		$deviceAPI = new Device($userAccessToken);
+
+
+
 
 		?>
 		<h2>DeviceAPI</h2>
 		<p>Set your access token and instantiate a new Device API to interact with your Ninja Block devices</p>
 		<h5>Code</h5>
-		<p><code>$accessToken = "YOUR TOKEN STRING"</code></p>
-		<p><code>$deviceAPI = new Device($accessToken);</code></p>
+		<p><code>$userAccessToken = "YOUR USER ACCESS TOKEN"</code></p>
+		<p><code>$deviceAPI = new Device($userAccessToken);</code></p>
 
 
 <?php
@@ -75,7 +86,7 @@
 			foreach($devices as $guid => $device) {
 				$deviceCount ++;
 ?>
-				<h3>Device <?= $deviceCount ?>: <?= $device->device_name ?></h3>
+				<h3>Device <?= $deviceCount ?>: <?= $device->default_name ?></h3>
 				<span class="label label-success">GUID:</span> <?= $guid ?><br>
 				<span class="label label-warning">Type:</span> <?= $device->device_type ?><br>
 				<span class="label label-info">Name:</span> <?= $device->default_name ?><br>

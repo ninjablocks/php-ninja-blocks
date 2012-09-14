@@ -29,7 +29,7 @@ class NBAPI {
 	 * Authentication access token
 	 * @var string
 	 */
-	var $accessToken;
+	var $userAccessToken;
 
 	var $timeout = 300;
 
@@ -37,7 +37,7 @@ class NBAPI {
 	public function __construct($token) {
 
 		// Set the access token for the session
-		$this->accessToken = $token;
+		$this->userAccessToken = $token;
 
 		// Set the API url. Embed the version number straight in.
 		$this->apiUrl = "https://api.ninja.is/rest/" . $this->version . "/";
@@ -102,7 +102,7 @@ class NBAPI {
 		}
 
 		// Generate the final endpoint url to be called
-		$url = "{$this->apiUrl}{$endpoint}?user_access_token={$this->accessToken}{$urlData}";
+		$url = "{$this->apiUrl}{$endpoint}?user_access_token={$this->userAccessToken}{$urlData}";
 		
 		// Set the curl options
 		curl_setopt($curl, CURLOPT_URL, $url);
