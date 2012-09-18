@@ -40,7 +40,7 @@
 		 * Generate your API user access token in your dashboard.
 		 * https://a.ninja.is/you (API tab then click on Enable API Access Token)
 		 */
-		$userAccessToken = "8b7c78a0-9e65-47d8-a9a3-93462c900cf9";
+		$userAccessToken = "YOUR USER ACCESS TOKEN";
 
 		/**
 		 * Instantiate a new Device API.
