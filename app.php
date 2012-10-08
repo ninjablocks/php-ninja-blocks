@@ -109,7 +109,7 @@
 ?>
 						<h4>Actuating LED</h4>
 						<h5>Code</h5>
-						<pre class="code"><code>$actuateData = (object) array('DA' => "FF00FF", 'shortName' => 'Purple');
+						<pre class="code"><code>$actuateData = (object) array('DA' => "FF00FF");
 $actuateResponse = $deviceAPI->actuate($guid, $actuateData);</code></pre>
 						<h5>Output</h5>
 						<pre><code><?php
