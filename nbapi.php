@@ -85,7 +85,7 @@ class NBAPI {
 				}
 				break;
 			case "PUT":
-				curl_setopt($curl, CURLOPT_PUT, 1);
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
 				if ($data) {
 					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 					array_push($headers, 'Content-Length: ' . strlen($data));
