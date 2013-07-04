@@ -17,21 +17,21 @@
  * 
  */
 class NBAPI {
-	var $version = "v0";
+	public $version = "v0";
 
 	/**
 	 * Url for the Ninja Blocks endpoint.
 	 * @var string
 	 */
-	var $apiUrl;
+	public $apiUrl;
 
 	/**
 	 * Authentication access token
 	 * @var string
 	 */
-	var $userAccessToken;
+	public $userAccessToken;
 
-	var $timeout = 300;
+	public $timeout = 300;
 
 	// Constructor
 	public function __construct($token) {
@@ -150,7 +150,7 @@ class User {
 
 class Device {
 
-	var $nbapi;
+	public $nbapi;
 
 	function __construct($accessToken) {
 
