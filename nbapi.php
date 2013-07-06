@@ -1,5 +1,7 @@
 <?php
 
+namespace NBAPI;
+
 /**
  * Ninja Blocks API Helper Classes.
  *
