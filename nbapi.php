@@ -39,10 +39,10 @@ class NBAPI {
 	public $userAccessToken;
 
 	/**
-	 * Forces cURL to verify security certificates
+	 * If true, forces cURL to verify security certificates. Set to false if you get no data back
 	 * @var boolean
 	 */
-	public $verifypeer = false;
+	public $verifypeer = true;
 
 	public $timeout = 300;
 
