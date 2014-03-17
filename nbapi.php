@@ -26,10 +26,23 @@ class NBAPI {
 	public $apiUrl;
 
 	/**
+	 * Url for the streaming Ninja Blocks endpoint. Used for retrieving webcam images and such.
+	 * @var string
+	 */
+	public $streamUrl;
+
+
+	/**
 	 * Authentication access token
 	 * @var string
 	 */
 	public $userAccessToken;
+
+	/**
+	 * Forces cURL to verify security certificates
+	 * @var boolean
+	 */
+	public $verifypeer = false;
 
 	public $timeout = 300;
 
@@ -41,6 +54,9 @@ class NBAPI {
 
 		// Set the API url. Embed the version number straight in.
 		$this->apiUrl = "https://api.ninja.is/rest/" . $this->version . "/";
+		
+		// Set the stream url (for getting webcam screenshots). Embed the version number straight in.
+		$this->streamUrl = "https://stream.ninja.is/rest/" . $this->version . "/";
 	}
 
 	/**
@@ -60,7 +76,7 @@ class NBAPI {
 	/**
 	 * Forms & makes an API Request
 	 */
-	public function MakeRequest($method, $endpoint, $data = false) {
+	public function MakeRequest($method, $endpoint, $data = false, $stream = false) {
 		// Declare the headers
 		$headers = array();
 		array_push($headers, 'Accepts: application/json');
@@ -102,7 +118,13 @@ class NBAPI {
 		}
 
 		// Generate the final endpoint url to be called
-		$url = "{$this->apiUrl}{$endpoint}?user_access_token={$this->userAccessToken}{$urlData}";
+		if($stream == true) {
+			// If we're getting a stream, use $streamUrl instead
+			$url = "{$this->streamUrl}{$endpoint}?user_access_token={$this->userAccessToken}{$urlData}";	
+		} else {
+			$url = "{$this->apiUrl}{$endpoint}?user_access_token={$this->userAccessToken}{$urlData}";			
+		}
+
 		
 		// Set the curl options
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -110,11 +132,12 @@ class NBAPI {
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($curl, CURLOPT_VERBOSE, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $verifypeer);		
 
 		// Make the call
 		$response = curl_exec($curl);
 		//echo print_r(curl_getinfo($curl));
-
+		//echo curl_error($curl); // Uncomment this to debug cURL errors
 		$headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
 		$header = substr($response, 0, $headerSize);
 		$body = substr($response, $headerSize);
@@ -125,10 +148,15 @@ class NBAPI {
 		// Close the connection
 		curl_close($curl);
 
+		if($stream == true) {
+			// If we're streaming, there's no JSON to return, so just return the raw data
+			return $body;			
+		} else {
 		// Convert to JSON object
-		$responseJSON = json_decode($body);
-
-		return $responseJSON;
+			$responseJSON = json_decode($body);
+			return $responseJSON;
+			
+		}
 	}
 
 
@@ -199,9 +227,17 @@ class Device {
 	}
 
 	public function data($guid, $from, $to) {
-
 		$dataScope = (object) array('from' => $from, 'to' => $to);
 		return $this->nbapi->MakeRequest("GET", "device/{$guid}/data", $dataScope);
+	}
+	
+	/**
+	 * Retrieves an image (webcam etc.) and returns the raw JPEG data. 
+	 * @param  string $guid The GUID of the device to grab an image from
+	 * @return string
+	 */
+	public function image($guid) {
+		return $this->nbapi->MakeRequest("GET", "camera/{$guid}/snapshot", false, true);	
 	}
 
 	public function lastHeartbeat($guid) {
