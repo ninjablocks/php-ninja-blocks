@@ -12,16 +12,17 @@ For the time being only Device has been implemented. If you would like to use ot
 2. Instantiate a Device object with your access token
 
 ```
-$deviceAPI = new DeviceAPI("YOUR ACCESS TOKEN");
+$deviceAPI = new Device("YOUR ACCESS TOKEN");
 ```
 
 3. Use the implemented methods
 
 ```
 $deviceAPI->getDevices();
-$deviceAPI->actuate();
-$deviceAPI->subscribe();
-$deviceAPI->unsubscribe();
-$deviceAPI->data();
-$deviceAPI->lastHeartbeat();
+$deviceAPI->actuate($guid, $da);
+$deviceAPI->subscribe($guid, $url);
+$deviceAPI->unsubscribe($guid);
+$deviceAPI->data($guid, $from, $to);
+$deviceAPI->image($guid);
+$deviceAPI->lastHeartbeat($guid);
 ```
