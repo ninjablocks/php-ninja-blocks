@@ -40,7 +40,7 @@
 		 * Generate your API user access token in your dashboard.
 		 * https://a.ninja.is/you (API tab then click on Enable API Access Token)
 		 */
-		$userAccessToken = "YOUR USER ACCESS TOKEN";
+		$userAccessToken = "e62cbfbff93771f4c62c005f7fada43fda8258ed";
 
 		/**
 		 * Instantiate a new Device API.
@@ -101,6 +101,13 @@
 
 				switch ($device->device_type) {
 
+					case "webcam":
+?>						<h4>Last Image from Webcam</h4>
+						<?php echo "<img src=\"data:image/jpeg;base64," . base64_encode($deviceAPI->image($guid)) . "\" />"; ?>
+                        <h5>Code</h5>
+						<pre class="code"><code>echo "<img src=\"data:image/jpeg;base64," . base64_encode($deviceAPI->image($guid)) . "\" />";</code></pre>
+<?php
+						break;
 					case "light":
 						break;
 
@@ -186,5 +193,3 @@ $dataResponse = $deviceAPI->data($guid, strtotime($fromDate), strtotime($toDate)
 
 </body>
 </html>
-
-
