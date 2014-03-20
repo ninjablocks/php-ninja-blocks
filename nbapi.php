@@ -236,10 +236,15 @@ class Device {
 	/**
 	 * Retrieves an image (webcam etc.) and returns the raw JPEG data. 
 	 * @param  string $guid The GUID of the device to grab an image from
+	 * @param  boolean $urlOnly If true, returns just the URL to the photo and not the raw JPEG data
 	 * @return string
 	 */
-	public function image($guid) {
-		return $this->nbapi->MakeRequest("GET", "camera/{$guid}/snapshot", false, true);	
+	public function image($guid, $urlOnly = false) {
+		if($urlOnly == true) {
+			return "{$this->nbapi->streamUrl}camera/{$guid}/snapshot";
+		} else {
+			return $this->nbapi->MakeRequest("GET", "camera/{$guid}/snapshot", false, true);	
+		}
 	}
 
 	public function lastHeartbeat($guid) {
