@@ -101,6 +101,13 @@
 
 				switch ($device->device_type) {
 
+					case "webcam":
+?>						<h4>Last Image from Webcam</h4>
+						<?php echo "<img src=\"data:image/jpeg;base64," . base64_encode($deviceAPI->image($guid)) . "\" />"; ?>
+                        <h5>Code</h5>
+						<pre class="code"><code>echo "<img src=\"data:image/jpeg;base64," . base64_encode($deviceAPI->image($guid)) . "\" />";</code></pre>
+<?php
+						break;
 					case "light":
 						break;
 
@@ -186,5 +193,3 @@ $dataResponse = $deviceAPI->data($guid, strtotime($fromDate), strtotime($toDate)
 
 </body>
 </html>
-
-
