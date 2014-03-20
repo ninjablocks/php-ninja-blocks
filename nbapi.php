@@ -90,6 +90,8 @@ class NBAPI {
 			case "GET":
 				if ($data) {
 					$urlData = "&".http_build_query($data);
+				} else {
+					$urlData = "";
 				}
 				break;
 			case "POST":
@@ -132,7 +134,7 @@ class NBAPI {
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($curl, CURLOPT_VERBOSE, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $verifypeer);		
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verifypeer);		
 
 		// Make the call
 		$response = curl_exec($curl);
